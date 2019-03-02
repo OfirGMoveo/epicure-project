@@ -9,6 +9,7 @@ const dishController = new DishController();
 routes.get('/restaurant/all', restaurantController.getAll());
 routes.get('/restaurant/filter', restaurantController.filter());
 routes.get('/restaurant/cuisines', restaurantController.getCuisines());
+routes.get('/restaurant/searchcompletion', restaurantController.getSearchCompletion());
 routes.get('/restaurant/:id', restaurantController.getById());
 
 routes.get('/dish/all', dishController.getAll());

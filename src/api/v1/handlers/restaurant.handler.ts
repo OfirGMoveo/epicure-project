@@ -31,4 +31,10 @@ export class RestaurantHandler {
             .catch( error => cb(error, null) );
     }
 
+    getSearchCompletion(params: { page: PaginationParams, search: string }, cb: HandlerCallback<{restaurants: string[]}>) {
+        DbSandbox.restaurants.searchCompletion(params.page, params.search)
+            .then( docs => cb(null, docs) )
+            .catch( error => cb(error, null) );
+    }
+
 }

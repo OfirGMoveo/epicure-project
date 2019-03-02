@@ -62,4 +62,18 @@ export class RestaurantController {
         }  
     }
 
+    getSearchCompletion(): ControllerFunction {
+        return (req, res, next) => {
+            const {search} = req.query;
+            const {skip, limit} = req.query; 
+            const page = { skip: parseInt(skip), limit: parseInt(limit)};
+            this.restaurantHandler.getSearchCompletion({page, search},(error, result) => {
+                if(error) {
+                    return next(error);
+                }
+                return res.send(result);
+            });
+        }  
+    }
+
 }

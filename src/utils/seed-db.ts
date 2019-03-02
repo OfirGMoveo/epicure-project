@@ -1,16 +1,14 @@
-import * as mongoose from 'mongoose';
 
 import { DbSandbox } from './db-sandbox';
-import { DishTag } from './../db/models/dish-tags/dish-tags.model';
 import {seed} from './seed';
 
-    async function dropAll() {
-            await DbSandbox.chefs.Chef.remove({});
-            await DbSandbox.restaurants.Restaurant.remove({});
-            await DbSandbox.dishes.Dish.remove({});
-            await DbSandbox.menus.Menu.remove({});
-            await DishTag.remove({});
-    }
+async function dropAll() {
+        await DbSandbox.chefs.Chef.remove({});
+        await DbSandbox.restaurants.Restaurant.remove({});
+        await DbSandbox.dishes.Dish.remove({});
+        await DbSandbox.menus.Menu.remove({});
+        await DbSandbox.dishTags.DishTag.remove({});
+}
 
 
 export async function insertSeed() {
@@ -32,7 +30,7 @@ export async function insertSeed() {
             .then( () => console.log('seed Menu successfully.'))
             .catch((e) => console.log(e));
         
-        DishTag.insertMany(seed.dishTags)
+            DbSandbox.dishTags.DishTag.insertMany(seed.dishTags)
             .then( () => console.log('seed DishTag successfully.'))
             .catch((e) => console.log(e));
     })

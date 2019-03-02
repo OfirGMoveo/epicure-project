@@ -1,12 +1,7 @@
 
-import { ObjectID } from 'mongodb';
 import { Dish, IDishModel } from '../../../db/models/dishes/dish.model'
 import { PaginationParams, DishesFilterParams } from '../../..//shared';
-import { Types } from 'mongoose';
-// import { auth } from 'firebase-admin';
 
-// export interface PageOptions { skip: number, limit: number }
-// export interface SortOptions { by: ('popularity' | 'alfa'), order: 1 | -1 }
 
 export class DishSandbox {
 

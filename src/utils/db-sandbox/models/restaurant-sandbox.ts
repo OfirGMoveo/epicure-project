@@ -1,11 +1,8 @@
 
-import { ObjectID } from 'mongodb';
 import { Restaurant, IRestaurantModel } from '../../../db/models/restaurants/restaurant.model'
 import { PaginationParams, RestaurantsFilterParams } from 'src/shared';
 import { Types } from 'mongoose';
-// import { auth } from 'firebase-admin';
 
-// export interface PageOptions { skip: number, limit: number }
 export interface SortOptions { by: ('popularity' | 'alfa'), order: 1 | -1 }
 
 export class RestaurantSandbox {
@@ -15,10 +12,6 @@ export class RestaurantSandbox {
     public static async getAll(page: PaginationParams, lightweight: boolean = true): Promise<(Partial<IRestaurantModel>)[]> {
         return this.findAllByConditionFields({}, page, lightweight);
     }
-
-    // public static async getAllByCuisine(cuisine: string, page: PaginationParams, lightweight: boolean = true): Promise<(Partial<IRestaurantModel>)[]> {
-    //     return this.findAllByConditionFields({cuisine}, page, lightweight);
-    // }
 
     private static findAllByConditionFields(subObj: {[key: string]: any}, page: PaginationParams, lightweight: boolean = true){
          // lightweight format presented in the front page all full version
@@ -70,18 +63,34 @@ export class RestaurantSandbox {
 
     public static async getById(id: string): Promise<Partial<IRestaurantModel>> {
         return Restaurant.findById(id).lean()
-            .populate({ path: 'menus', select: 'content', populate: { path: 'content.dishes', select: 'name ingredients price tags' } })
+            .populate({ 
+                path: 'menus', 
+                select: 'content', 
+                populate: { 
+                    path: 'content.dishes', 
+                    select: 'name ingredients price tags',
+                    populate: { path: 'tags', select: 'name' } 
+                } 
+            })
             .lean()
             .exec();
     }
 
-
     public static async getCuisines(): Promise<[{cuisines: Array<string>}]> {
-        console.log();
         return Restaurant.aggregate([
             { $group : { _id : null , cuisines : { $addToSet: "$cuisine" } } } ,
             { $project: { cuisines: 1 , _id: 0 } } 
         ]).exec()
+    }
+
+    public static async searchCompletion(page: PaginationParams, searchText: string) : Promise<{restaurants: string[]}> {
+        const regex = new RegExp(`(^|\\s)${searchText}`); 
+        return Restaurant.aggregate([
+            { $match: { name: { $regex : regex } } },
+            { $skip : page.skip }, { $limit: page.limit },
+            { $group : { _id : null , restaurants : { $addToSet: "$name" } } } ,
+            { $project: { restaurants: 1 , _id: 0 } } 
+        ]).exec();
     }
 }
 
