@@ -9,6 +9,8 @@
         },
         "currentVersion" : 1
     },
-    "TESTING_API_KEY" : "AIzaSyDldEqEc_wTGfRXEM-fo5w9QLCoE9cEn-o"
+    "TESTING_API_KEY" : "AIzaSyDldEqEc_wTGfRXEM-fo5w9QLCoE9cEn-o",
+    "JWT_SECRET": "k1e2tigohx8etqhrt78htx3236o"
+
 
 }

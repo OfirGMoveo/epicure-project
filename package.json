@@ -24,6 +24,7 @@
     "body-parser": "^1.18.3",
     "config": "^3.0.1",
     "express": "^4.16.4",
+    "jwt-middle": "file:jwt-middle-1.0.0.tgz",
     "mongoose": "^5.4.16"
   }
 }

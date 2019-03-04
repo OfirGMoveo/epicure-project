@@ -13,6 +13,5 @@ export interface IUser extends ModelDocument {
 
     favoriteRestaurants: Array<Schema.Types.ObjectId | object>
     orders: Array<Schema.Types.ObjectId | object>
-    orderHistory: Schema.Types.ObjectId | object;
 
 }

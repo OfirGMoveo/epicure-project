@@ -12,7 +12,7 @@ export class RestaurantSandbox {
     public static async getAll(page: PaginationParams, lightweight: boolean = true): Promise<(Partial<IRestaurantModel>)[]> {
         return this.findAllByConditionFields({}, page, lightweight);
     }
-
+    
     private static findAllByConditionFields(subObj: {[key: string]: any}, page: PaginationParams, lightweight: boolean = true){
          // lightweight format presented in the front page all full version
         const query = lightweight ? 
@@ -91,6 +91,13 @@ export class RestaurantSandbox {
             { $group : { _id : null , restaurants : { $addToSet: "$name" } } } ,
             { $project: { restaurants: 1 , _id: 0 } } 
         ]).exec();
+    }
+
+    public static async patchDeactivateById(id: string): Promise<Partial<IRestaurantModel>> {
+        return Restaurant.findByIdAndUpdate(id, { isActive: false }, {new: true}).lean().exec();
+    }
+    public static async patchReactivateById(id: string): Promise<Partial<IRestaurantModel>> {
+        return Restaurant.findByIdAndUpdate(id, { isActive: true }, {new: true}).lean().exec();
     }
 }
 

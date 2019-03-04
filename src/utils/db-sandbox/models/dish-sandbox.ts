@@ -1,6 +1,7 @@
 
 import { Dish, IDishModel } from '../../../db/models/dishes/dish.model'
 import { PaginationParams, DishesFilterParams } from '../../..//shared';
+import { Types } from 'mongoose';
 
 
 export class DishSandbox {
@@ -35,7 +36,7 @@ export class DishSandbox {
          { '$lookup': { from: 'dish_tags', localField: 'tags', foreignField: '_id', as: 'tags'} },
          { '$project': { 
             tags: { $map: { input: '$tags', as: 'tag', in: "$$tag.name" } },
-            ingredients: 1, name : 1, price : 1, restaurant : 1,
+            ingredients: 1, name : 1, price : 1, restaurant : 1, sides : 1, changes: 1 
          } }
       );
 
@@ -56,6 +57,22 @@ export class DishSandbox {
       return Dish.findById(id).lean()
           .populate({ path: 'tags', select: 'name' })
           .exec();
+  }
+
+   public static async getPrice(dishes: string | string[]) {
+      let totalPriceDoc: any[];
+      if(Array.isArray(dishes)) {
+         const dishesId = dishes.map(id =>  Types.ObjectId(id))
+         totalPriceDoc = await Dish.aggregate([
+           { $match: { _id: { $in : dishesId } } },
+           { $group: { _id: null, totalPrice: { $sum: '$price' } } }
+         ]).exec();
+      } else {
+         totalPriceDoc = await Dish.find({_id: dishes}, { price: 1 });
+      }
+      const totalPriceResult = totalPriceDoc[0];
+      const totalPrice: number = totalPriceResult.totalPrice;
+      return totalPrice;
   }
 
 }

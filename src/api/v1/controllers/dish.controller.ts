@@ -1,10 +1,10 @@
 
 import { ControllerFunction } from '../../../ts-coverage';
-import { DishHandler } from '../handlers/Dish.handler';
+import { DishHandler } from '../handlers/dish.handler';
 
 export class DishController {
 
-    DishHandler = new DishHandler()
+    dishHandler = new DishHandler()
 
     constructor() { }
 
@@ -14,7 +14,7 @@ export class DishController {
             const page = { skip: parseInt(skip), limit: parseInt(limit)};
             const { ingredients, tags, priceLt, priceGt } = req.query; 
 
-            this.DishHandler.filter({page, filter: { ingredients, tags, priceLowThen: priceLt, priceGreatThen: priceGt }}, (error, result) => {
+            this.dishHandler.filter({page, filter: { ingredients, tags, priceLowThen: priceLt, priceGreatThen: priceGt }}, (error, result) => {
                 if(error) {
                     return next(error);
                 }
@@ -27,7 +27,7 @@ export class DishController {
         return (req, res, next) => {
             const {id} = req.params; 
             
-            this.DishHandler.getById({ id }, (error, result) => {
+            this.dishHandler.getById({ id }, (error, result) => {
                 if(error) {
                     return next(error);
                 }
@@ -41,7 +41,7 @@ export class DishController {
 
             const {skip, limit} = req.query; 
             const page = { skip: parseInt(skip), limit: parseInt(limit)};
-            this.DishHandler.getAll({page}, (error, result) => {
+            this.dishHandler.getAll({page}, (error, result) => {
                 if(error) {
                     return next(error);
                 }

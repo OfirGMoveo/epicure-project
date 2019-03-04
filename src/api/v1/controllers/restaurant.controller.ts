@@ -76,4 +76,27 @@ export class RestaurantController {
         }  
     }
 
+    patchDeactivateById(): ControllerFunction {
+        return (req, res, next) => {
+            const {id} = req.params;
+            this.restaurantHandler.patchDeactivateById({id},(error, result) => {
+                if(error) {
+                    return next(error);
+                }
+                return res.send(result);
+            });
+        }  
+    }
+
+    patchReactivateById(): ControllerFunction {
+        return (req, res, next) => {
+            const {id} = req.params;
+            this.restaurantHandler.patchReactivateById({id},(error, result) => {
+                if(error) {
+                    return next(error);
+                }
+                return res.send(result);
+            });
+        }  
+    }
 }
