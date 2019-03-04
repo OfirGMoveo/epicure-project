@@ -42,6 +42,8 @@ const RestaurantSchema = createStrongSchema(({
     },
     address:     { type: String,   required: true },
     about:       { type: String,   required: true }, 
+    isActive:    { type: Boolean,  default: true }
+
 
 } as StrongSchema<IRestaurant>), new RestaurantMethods(), { timestamps: true });
 

@@ -132,5 +132,19 @@ export const seed = {
                 dishes: ['5c77a37ba1969c07aa8968a5', '5c77a37ba1969c07aa8968a6'] 
             }]
         }
+    ],
+
+
+    users: [
+        {
+            _id: "5c7c36c62280dd3541a7345d",
+            email: "user-new@email.com",
+            password: "myPassword",
+            personal: {
+                firstName: "shoko",
+                lastName: "boko"
+            },
+        }
     ]
+
 }

@@ -4,9 +4,20 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser'
 import { ErrorRequestHandler } from 'express';
+import * as config from 'config';
 import './db/mongoose-init'; // apply connection
 // import './utils/seed-db';
+import { IUser, User } from './db/models/users';
+
+import { JWTMiddle } from 'jwt-middle';
+JWTMiddle.setConfig<IUser,{ _id: string}>({
+    secretProvider: () => config.get('JWT_SECRET'),
+    userModel: User,
+});
+
 import { generalRouter, apiRoutes } from './api/routes'
+
+
 
 // ======================== Entity approach =========================== //
 // import {routers} from '../lib/routes-connector'

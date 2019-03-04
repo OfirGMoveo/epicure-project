@@ -11,4 +11,6 @@ export interface IRestaurant extends ModelDocument {
     },
     address: string;
     about: string;
+    isActive: boolean;
+
 }

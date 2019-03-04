@@ -3,6 +3,7 @@ import { HandlerCallback } from '../../../ts-coverage';
 import { IRestaurantModel } from './../../../db/models/restaurants'
 import { PaginationParams, RestaurantsFilterParams } from './../../../shared' 
 import { DbSandbox } from './../../../utils/db-sandbox';
+
 export class RestaurantHandler {
 
 
@@ -25,6 +26,18 @@ export class RestaurantHandler {
             .catch( error => cb(error, null) );
     }
     
+    patchDeactivateById(params: {id: string }, cb: HandlerCallback<Partial<IRestaurantModel>>) {
+        DbSandbox.restaurants.patchDeactivateById(params.id)
+            .then( docs => cb(null, docs) )
+            .catch( error => cb(error, null) );
+    }
+
+    patchReactivateById(params: {id: string }, cb: HandlerCallback<Partial<IRestaurantModel>>) {
+        DbSandbox.restaurants.patchReactivateById(params.id)
+            .then( docs => cb(null, docs) )
+            .catch( error => cb(error, null) );
+    }
+
     getCuisines(cb: HandlerCallback<{cuisines: string[]}>) {
         DbSandbox.restaurants.getCuisines()
             .then( docs => cb(null, docs[0]) )
