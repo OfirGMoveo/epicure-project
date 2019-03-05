@@ -7,7 +7,7 @@ let dbConfig: {[key: string]: string};
 if(process.env.NODE_ENV === 'production') {
     // up extra directory for 'current' folder (pm2)
     const prodConfig = require('../../../../prod-config.json');
-    dbConfig = prodConfig['MongoDB.Configurations'];
+    dbConfig = prodConfig['MongoDB']['Configurations'];
 } else {
     dbConfig = config.get('MongoDB.Configurations') as {[key: string]: string};
 }
